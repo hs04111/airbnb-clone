@@ -1,8 +1,9 @@
 {
     "python.pythonPath": "C:\\Python39\\python.exe",
-    "python.linting.flake8Enabled": false,
-    "python.linting.pylintEnabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false,
     "python.linting.enabled": true,
     "python.formatting.provider": "autopep8",
-    "python.linting.flake8Args": ["--max-line-length=88"]
+    "python.linting.flake8Args": ["--max-line-length=88"],
+    "prettier.disableLanguages": ["html"] 
 }
