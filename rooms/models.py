@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django_countries.fields import CountryField
 from core import models as core_models
 # from users import models as user_models #Room model에 사용하기 위해 import했으나, 밑에서 'users.User'로 스트링으로 적으면 장고는 알아서 잘 찾는다.
@@ -89,6 +90,10 @@ class Room(core_models.TimeStampedModel):
     def save(self, *args, **kwargs):
         self.city = str.capitalize(self.city)
         super().save(*args, **kwargs)
+
+    # admin에서 바로 사이트로 가게 해주는 메소드. view함수의 name과 url의 변수를 reverse에 넣어 return한다.
+    def get_absolute_url(self):
+        return reverse('rooms:detail', kwargs={'pk': self.pk})
 
     def total_rating(self):
         all_reviews = self.reviews.all()
