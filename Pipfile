@@ -14,7 +14,7 @@ django-countries = "*"
 django-seed = "*"
 
 [requires]
-python_version = "3"
+python_version = "3.8.6"
 
 [pipenv]
 allow_prereleases = true
