@@ -1,7 +1,9 @@
-from . import models
 from django.views.generic import ListView
-from django.urls import reverse
-from django.shortcuts import render, redirect
+from django.http import Http404
+
+# from django.urls import reverse
+from django.shortcuts import render  # , redirect
+from . import models
 
 
 class HomeView(ListView):
@@ -18,6 +20,9 @@ class HomeView(ListView):
 def room_detail(request, pk):
     try:
         room = models.Room.objects.get(pk=pk)
+        return render(request, "rooms/detail.html", {"room": room})
     except models.Room.DoesNotExist:
-        return redirect(reverse("core:home"))
-    return render(request, "rooms/detail.html", {"room": room})
+        raise Http404()
+        # return redirect(reverse("core:home"))
+        # 방 pk가 모델에 없는 경우 redirect로 home으로 보낼 수도 있고, 아니면 404 에러를 일으킬 수 있다.
+        # Http404를 일으키는 경우, 만약 templates 폴더에 404.html이 있으면 debug=True일 경우 이 html이 render된다.
