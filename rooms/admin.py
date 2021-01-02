@@ -21,6 +21,7 @@ class ItemAdmin(admin.ModelAdmin):
 
 # room admin에서 linine 으로 photo 를 볼 수 있게 하려면 이 클래스를 정의해야 한다
 
+
 class PhotoInline(admin.TabularInline):
     model = models.Photo
 
@@ -35,52 +36,65 @@ class RoomAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (
-            "Spaces", {"fields": ("guests", "beds", "bedrooms", "baths",)}
-        ),
-        (
-            "Basic Info", {"fields": (
-                "name", "description", "country", "address", "price")}
-
-        ),
-        (
-            "Times", {"fields": ("check_in", "check_out", "instant_book")}
-        ),
-        (
-            "More About the Space", {"fields": (
-                "amenities", "facilities", "house_rules"),
-                "classes": ("collapse",)}
-        ),
-        (
-            "Last Details", {"fields": ("host",)}
-        ),
-
-    )
-
-    list_display = ("name",
-                    "country",
-                    "city",
-                    "price",
+            "Spaces",
+            {
+                "fields": (
                     "guests",
                     "beds",
                     "bedrooms",
                     "baths",
-                    "check_in",
-                    "check_out",
-                    "instant_book",
-                    "count_amenities",
-                    "count_photos",
-                    "total_rating",
-                    )
+                )
+            },
+        ),
+        (
+            "Basic Info",
+            {"fields": ("name", "description", "country", "city", "address", "price")},
+        ),
+        ("Times", {"fields": ("check_in", "check_out", "instant_book")}),
+        (
+            "More About the Space",
+            {
+                "fields": ("amenities", "facilities", "house_rules"),
+                "classes": ("collapse",),
+            },
+        ),
+        ("Last Details", {"fields": ("host",)}),
+    )
 
-    ordering = ('name', 'price', 'bedrooms',)
+    list_display = (
+        "name",
+        "country",
+        "city",
+        "price",
+        "guests",
+        "beds",
+        "bedrooms",
+        "baths",
+        "check_in",
+        "check_out",
+        "instant_book",
+        "count_amenities",
+        "count_photos",
+        "total_rating",
+    )
 
-    list_filter = ("host__superhost",
-                   "host__gender",
-                   "instant_book",
-                   "room_type",
-                   "amenities",
-                   "facilities",
-                   "house_rules", "city", "country", )
+    ordering = (
+        "name",
+        "price",
+        "bedrooms",
+    )
+
+    list_filter = (
+        "host__superhost",
+        "host__gender",
+        "instant_book",
+        "room_type",
+        "amenities",
+        "facilities",
+        "house_rules",
+        "city",
+        "country",
+    )
 
     # 데이터가 많이 생기면(ex. user) admin 창에서 검색할 수 있는 기능을 준다.
     raw_id_fields = ("host",)
@@ -90,7 +104,8 @@ class RoomAdmin(admin.ModelAdmin):
     filter_horizontal = (
         "amenities",
         "facilities",
-        "house_rules",)
+        "house_rules",
+    )
 
     def count_amenities(self, obj):  # obj는 보통 리스트의 현재 row
         return obj.amenities.count()
@@ -102,12 +117,12 @@ class RoomAdmin(admin.ModelAdmin):
     count_amenities.short_description = "count_amenities"  # list의 해당 model 제목
 
 
-@ admin.register(models.Photo)
+@admin.register(models.Photo)
 class PhotoAdmin(admin.ModelAdmin):
 
     """ Photo Admin Definition """
 
-    list_display = ('__str__', "get_thumbnail")
+    list_display = ("__str__", "get_thumbnail")
 
     def get_thumbnail(self, obj):
         return mark_safe(f'<img width="50px", src="{obj.file.url}" />')
