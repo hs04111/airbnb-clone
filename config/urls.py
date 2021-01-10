@@ -22,14 +22,15 @@ from django.conf.urls.static import static
 # 위의 settings는 우리의 settings를 mirror한 것.
 
 
-urlpatterns = [path("", include("core.urls", namespace="core")),
-               path("rooms/", include("rooms.urls", namespace="rooms")),
-               path('admin/', admin.site.urls),
-               ]
+urlpatterns = [
+    path("", include("core.urls", namespace="core")),
+    path("rooms/", include("rooms.urls", namespace="rooms")),
+    path("users/", include("users.urls", namespace="users")),
+    path("admin/", admin.site.urls),
+]
 
 # 개발자 모드에서 미디어 파일들을 임시로 저장한 폴더의 url을 정해준다.
 # 나중에 아마존 등에 업로드할 때에는 다른 스토리지 서버에 사용자 미디어 파일 등을 다시 저장하도록 할 것
 # static을 통해 url과 디렉토리를 연결함
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
