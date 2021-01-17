@@ -55,4 +55,4 @@ class SignUpForm(forms.Form):
         user = models.User.objects.create_user(email, email, password)
         user.first_name = first_name
         user.last_name = last_name
-        user.save
+        user.save()
