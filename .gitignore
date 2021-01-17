@@ -139,5 +139,3 @@ cython_debug/
 
 uploads/
 
-#django secret key json file
-secrets.json
