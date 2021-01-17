@@ -10,8 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import json
-from django.core.exceptions import ImproperlyConfigured
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -24,22 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
-secret_file = os.path.join(BASE_DIR, "secrets.json")  # secrets.json 파일 위치를 명시
-
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
-
-
-def get_secret(setting, secrets=secrets):
-    """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
-    try:
-        return secrets[setting]
-    except KeyError:
-        error_msg = "Set the {} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
-
-
-SECRET_KEY = get_secret("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -163,3 +146,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 # media/ 앞에 /를 하나 더 붙임으로써 루트에서 시작함을 선언한다.
 # /를 앞에 붙이지 않으면 상대경로로 인식되어 해당 링크를 클릭한 곳(ex. photos)에서 끝에 media/가 붙기만 한 주소가 나와버린다.
 MEDIA_URL = "/media/"
+
+
+# Email Configuration
+
+EMAIL_HOST = "smtp.mailgun.org "
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = os.environ.get("MAILGUN_USERNMAE")
+EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_PASSWORD")
